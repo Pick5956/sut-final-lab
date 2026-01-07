@@ -8,18 +8,18 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func Test_PositiveValidate(t *testing.T) {
+func Test_NegativePrice(t *testing.T) {
 	gomega := NewGomegaWithT(t)
 
 	validData := entity.Books{
 		Title: "HarryPotter",
-		Price: 50,
+		Price: 0,
 		Code:  "BK102372",
 	}
 
-	t.Run("Case Positive", func(t *testing.T) {
+	t.Run("Case Negative Price = 49", func(t *testing.T) {
 		ok, err := govalidator.ValidateStruct(validData)
-		gomega.Expect(ok).To(BeTrue())
-		gomega.Expect(err).To(BeNil())
+		gomega.Expect(ok).To(BeFalse())
+		gomega.Expect(err.Error()).To(Equal("Price must be between 50 and 5000"))
 	})
 }
